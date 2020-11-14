@@ -4,6 +4,13 @@
 #include <vector>
 #include <fstream>
 #include <boost/lexical_cast.hpp>
+
+/*
+Run with 
+g++ -I /usr/local/boost/1.74.0/include main.cpp -o main && ./main
+
+*/
+
 using namespace std;
 using namespace boost;
 
