@@ -1,0 +1,3 @@
+Dear Diary
+1: I'm learning Design Patterns today
+2: Specifically Single Responsibility Pattern
