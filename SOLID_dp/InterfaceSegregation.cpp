@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <boost/lexical_cast.hpp>
+using namespace std;
+using namespace boost; // Run with g++ -I /usr/local/boost/1.74.0/include 
+//not create interface that's too large
+
+struct Document;
+
+struct IPrinter {
+	virtual void print(Document& doc) = 0;
+};
+
+struct IScanner {
+	virtual void scan(Document& doc) = 0;
+};
+
+struct IFax {
+	virtual void fax(Document& doc) = 0;
+};
+
+struct Printer : IPrinter {
+	void print(Document &doc) override {
+
+	}
+};
+
+struct Imachine : IPrinter, IScanner {};
+
+struct Machine : Imachine {
+	IPrinter& printer;
+	IScanner& scanner;
+
+	Machine(IPrinter &printer, IScanner &scanner) : printer(printer), scanner(scanner) {}
+
+	void print(Document &doc) override {
+		printer.print(doc);
+	}
+	void scan(Document &doc) override {
+		scanner.scan(doc);
+	}
+};
+
+int main() {
+
+
+	return 0;
+}
