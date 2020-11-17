@@ -3,10 +3,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <boost/lexical_cast.hpp>
 using namespace std;
-using namespace boost; // Run with g++ -I /usr/local/boost/1.74.0/include 
-//not create interface that's too large
+
 
 struct Document;
 

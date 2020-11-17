@@ -39,7 +39,7 @@ int main() {
 	journal.add_entry("Specifically Single Responsibility Pattern");
 
 	PersistenceManager pm;
-	pm.save(journal, "singleRes.txt");
+	pm.save(journal, "singleResponsibility.txt");
 
 	//getchar();
 	return 0;

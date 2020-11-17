@@ -4,9 +4,9 @@
 #include <vector>
 #include <fstream>
 #include <tuple>
-//#include <boost/lexical_cast.hpp>
+
 using namespace std;
-//using namespace boost; // Run with g++ -I /usr/local/boost/1.74.0/include 
+
 //A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
 //B. Abstractions should not depend on details. Details should depend on abstractions
 
