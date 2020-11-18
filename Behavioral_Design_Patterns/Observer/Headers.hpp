@@ -1,7 +1,7 @@
 #pragma once
 
-// #define _USE_MATH_DEFINES
-// #define _HAS_AUTO_PTR_ETC 1
+#define _USE_MATH_DEFINES
+#define _HAS_AUTO_PTR_ETC 1
 #include <algorithm>
 #include <iostream>
 #include <cstdio>
@@ -25,10 +25,10 @@ using namespace std;
 //#include <boost/algorithm/string.hpp>
 //#include <boost/bimap.hpp>
 //#include <boost/flyweight.hpp>
-// #include <boost/signals2.hpp>
-// //#include <boost/iterator/iterator_facade.hpp>
-// using namespace boost;
-// using namespace boost::signals2;
+#include <boost/signals2.hpp>
+//#include <boost/iterator/iterator_facade.hpp>
+using namespace boost;
+using namespace boost::signals2;
 
-// #define GTEST_LANG_CXX11 1
-// #include <gtest/gtest.h>
+#define GTEST_LANG_CXX11 1
+//#include <gtest/gtest.h>

@@ -1,51 +1,85 @@
-//Observer: Getting notification when things happen
-
 #include "Headers.hpp"
 #include "Observer.hpp"
-#include "Observable.hpp"
+#include "SaferObservable.hpp"
 
-using std::cout;
-
-class Person : public Observable<Person>
+class Person : public SaferObservable<Person>
 {
-	int age;
+  int age{0};
 public:
-	Person(int age) : age(age) {}
+  Person(){}
+  Person(int age) : age(age) {}
 
-	int get_age() const 
-	{
-		return age;
-	}
+  int get_age() const
+  {
+    return age;
+  }
 
-	void set_age(int age) 
-	{
-		if (this->age == age) return;
-		this->age = age;
-		notify(*this, "age");
-	}
+  void set_age(int age)
+  {
+    if (this->age == age) return;
+
+    auto old_can_vote = get_can_vote();
+    this->age = age;
+    notify(*this, "age");
+
+    if (old_can_vote != get_can_vote())
+      notify(*this, "can_vote");
+  }
+
+  bool get_can_vote() const {
+    return age >= 16;
+  }
 };
 
-struct ConsolePersonObserver : public Observer<Person> 
+// observer & observable
+
+struct ConsolePersonObserver
+  : public Observer<Person>
 {
 private:
-	void field_changed(Person &source, const std::string &field_name) override 
-	{
-		cout << "Person's " << field_name << " has changed to ";
-		if(field_name == "age") cout << source.get_age();
-		cout << "\n.";
-	}
-}
+  void field_changed(Person &source, const std::string &field_name) override
+  {
+    cout << "Person's " << field_name << " has changed to ";
+    if (field_name == "age") cout << source.get_age();
+    if (field_name == "can_vote")
+      cout << boolalpha << source.get_can_vote();
+    cout << ".\n";
+  }
+};
 
-int main(int ac, char* av[]) {
-	Person person{10};
-	ConsolePersonObserver cpo;
-	person.subscribe(cpo);
+struct TrafficAdministration : Observer<Person>
+{
+  void field_changed(Person &source, const std::string &field_name) override
+  {
+    if (field_name == "age")
+    {
+      if (source.get_age() < 17)
+        cout << "Whoa there, you're not old enough to drive!\n";
+      else
+      {
+        cout << "Oh, ok, we no longer care!\n";
+        source.unsubscribe(*this);
+      }
+    }
+  }
+};
 
-	person.set_age(11);
-	person.set_age(12);
+int main(int ac, char* av[])
+{
+  Person p;
+  TrafficAdministration ta;
+  p.subscribe(ta);
 
-	person.unsubscribe(cpo);
+  p.set_age(15);
+  p.set_age(16);
+  try
+  {
+    p.set_age(17);
+  }
+  catch (const std::exception& e)
+  {
+    cout << "Oops, " << e.what() << "\n";
+  }
 
-	person.set_age(13);
-	return 0;
+  return 0;
 }
